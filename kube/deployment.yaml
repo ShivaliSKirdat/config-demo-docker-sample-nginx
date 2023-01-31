@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-webapp-deployment
+  labels:
+    app: frontend-webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend-webapp
+  template:
+    metadata:
+      labels:
+        app: frontend-webapp
+    spec:
+      containers:
+      - name: frontend-webapp
+        image: shivalikirdat/cloudethix_configmap_shivali:v1
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-index-html-volume
+          mountPath: /usr/share/nginx/html/
+          readOnly: true
+      volumes:
+      - name: config-index-html-volume
+        configMap:
+          name: config-index-html
+
